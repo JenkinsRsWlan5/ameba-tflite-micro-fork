@@ -59,15 +59,17 @@ rm -rf third_party
 rm -rf signal
 mv "${TEMP_DIR}/tflm-out/tensorflow" tensorflow
 
-# update tflm_unittest
-echo update tflm_unittest...
-./sync/extract_tflm_unittest_srcs.sh "${TEMP_DIR}"/tflite-micro tflm_unittest_new/
+# update tflm_unittest only if the script exists
+if [ -f "${SCRIPT_DIR}/extract_tflm_unittest_srcs.sh" ]; then
+  echo update tflm_unittest...
+  ./sync/extract_tflm_unittest_srcs.sh "${TEMP_DIR}"/tflite-micro tflm_unittest_new/
 
-cp -r "${TFLITE_LIB_DIR}"/tflm_unittest/tensorflow/lite/micro/kernels/ameba-aiot "${TFLITE_LIB_DIR}"/tflm_unittest_new/tensorflow/lite/micro/kernels/
-cp -r "${TFLITE_LIB_DIR}"/tflm_unittest/tensorflow/lite/micro/testing/ameba-aiot "${TFLITE_LIB_DIR}"/tflm_unittest_new/tensorflow/lite/micro/testing/
+  cp -r "${TFLITE_LIB_DIR}"/tflm_unittest/tensorflow/lite/micro/kernels/ameba-aiot "${TFLITE_LIB_DIR}"/tflm_unittest_new/tensorflow/lite/micro/kernels/
+  cp -r "${TFLITE_LIB_DIR}"/tflm_unittest/tensorflow/lite/micro/testing/ameba-aiot "${TFLITE_LIB_DIR}"/tflm_unittest_new/tensorflow/lite/micro/testing/
 
-rm -rf tflm_unittest
-mv tflm_unittest_new tflm_unittest
+  rm -rf tflm_unittest
+  mv tflm_unittest_new tflm_unittest
+fi
 
 # For this repo we are forking both the models and the examples.
 rm -rf tensorflow/lite/micro/models

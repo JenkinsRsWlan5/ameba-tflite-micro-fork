@@ -1,0 +1,71 @@
+
+# for amebalite hifi5dsp
+set(DEFAULT_XTENSA_BASE /opt/xtensa/XtDevTools/install)
+set(DEFAULT_XTENSA_TOOLS_VERSION RI-2021.8-linux)
+set(DEFAULT_XTENSA_CORE HIFI5_PROD_1123_asic_wUPG)
+
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+if(NOT DEFINED ENV{XTENSA_CORE})
+  message(STATUS "Setting build type to ${DEFAULT_XTENSA_CORE}, for other core use"
+      " 'export XTENSA_CORE=other_config'")
+  set(XTENSA_CORE ${DEFAULT_XTENSA_CORE})
+else()
+  set(XTENSA_CORE "$ENV{XTENSA_CORE}")
+endif()
+
+if(NOT DEFINED ENV{XTENSA_TOOLS_VERSION})
+  set(XTENSA_TOOLS_VERSION ${DEFAULT_XTENSA_TOOLS_VERSION})
+ELSE()
+  set(XTENSA_TOOLS_VERSION "$ENV{XTENSA_TOOLS_VERSION}")
+endif()
+
+if(NOT DEFINED ENV{XTENSA_BASE})
+  set(XTENSA_BASE ${DEFAULT_XTENSA_BASE})
+else()
+  set(XTENSA_BASE "$ENV{XTENSA_BASE}")
+endif()
+
+message(STATUS "XTENSA_CORE: " ${XTENSA_CORE})
+message(STATUS "XTENSA_BASE: " ${XTENSA_BASE})
+message(STATUS "XTENSA_TOOLS_VERSION: " ${DEFAULT_XTENSA_TOOLS_VERSION})
+
+#set(INSTALL_LIB_DIR	"${PROJECT_SOURCE_DIR}/build/generate/lib/${target_platform}/${XTENSA_CORE}/${build_type}")
+set(INSTALL_LIB_DIR         ${CMAKE_INSTALL_PREFIX}/libs/${target_platform}/${XTENSA_CORE})
+set(THIRD_PARTY_LIB_DIR     ${THIRD_PARTY_LIB_DIR}/${XTENSA_CORE})
+set(INSTALL_RESOURCE_DIR    ${INSTALL_RESOURCE_DIR}/${XTENSA_CORE})
+set(EXECUTABLE_OUTPUT_PATH  ${EXECUTABLE_OUTPUT_PATH}/${XTENSA_CORE}) 
+
+
+#set(XTENSA_SYSTEM ${XTENSA_BASE}/builds/${XTENSA_TOOLS_VERSION}/${XTENSA_CORE}/config)
+
+include_directories(
+	${CMAKE_SOURCE_DIR}/third_party/Hifi5_NatureDSP/include_private
+	${CMAKE_SOURCE_DIR}/third_party/Hifi5_NatureDSP/include
+)
+
+set(XTENSA_TOOLCHAIN 	${XTENSA_BASE}/tools/${XTENSA_TOOLS_VERSION}/XtensaTools/bin)
+set(CMAKE_C_COMPILER    ${XTENSA_TOOLCHAIN}/xt-clang)
+set(CMAKE_CXX_COMPILER  ${XTENSA_TOOLCHAIN}/xt-clang++)
+set(CMAKE_RANLIB        ${XTENSA_TOOLCHAIN}/xt-ranlib)
+set(CMAKE_AR            ${XTENSA_TOOLCHAIN}/xt-ar)
+
+
+
+# set(ARCH_FLAGS "-O3 -LNO:simd -mcoproc -mlongcalls -Qunused-arguments -DHIFI5 -frtti -Wno-unused-parameter")
+set(ARCH_FLAGS "-O3 -DXTENSA -DHIFI5 -DNNLIB_HIFI5 -stdlib=libc++ -DTF_LITE_MCU_DEBUG_LOG -DTF_LITE_USE_CTIME -mcoproc -mlongcalls -Wno-shadow")
+#add_definitions(-DUSE_IDMA)
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+  string(APPEND ARCH_FLAGS " -Wno-unused-private-field ")
+endif()
+set(CMAKE_C_FLAGS       "${ARCH_FLAGS}" CACHE STRING "" FORCE )
+set(CMAKE_CXX_FLAGS     "${ARCH_FLAGS}" CACHE STRING "" FORCE )
+set(CMAKE_ASM_FLAGS     ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+set(CMAKE_LD_FLAGS      ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+
+set(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> qcD <TARGET> <LINK_FLAGS> <OBJECTS>")
+set(CMAKE_C_ARCHIVE_FINISH "<CMAKE_RANLIB> -D <TARGET>")
+set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> qcD <TARGET> <LINK_FLAGS> <OBJECTS>")
+set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -D <TARGET>")
+

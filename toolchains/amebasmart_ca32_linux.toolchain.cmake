@@ -1,0 +1,32 @@
+#set(SDK_INSTALL_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../../..")
+set(SDK_INSTALL_DIR "/opt/yocto/toolchain/gcc-yocto-11.3.0-a32hf-neon-arm-linux-gnueabi")
+set(HOST_SYSROOT    "${SDK_INSTALL_DIR}/sysroots/x86_64-rtksdk-linux")
+set(TARGET_SYSROOT  "${SDK_INSTALL_DIR}/sysroots/cortexa32hf-neon-rtk-linux-gnueabi")
+set(HOST_BIN        "${HOST_SYSROOT}/usr/bin")
+set(TOOLCHAIN_NAME  "arm-rtk-linux-gnueabi")
+set(GCC_DIR         "${HOST_BIN}/${TOOLCHAIN_NAME}")
+
+set(CMAKE_SYSTEM_NAME       Linux)
+set(CMAKE_SYSTEM_PROCESSOR "arm")
+
+set(CMAKE_C_COMPILER    "${GCC_DIR}/${TOOLCHAIN_NAME}-gcc")
+set(CMAKE_CXX_COMPILER  "${GCC_DIR}/${TOOLCHAIN_NAME}-g++")
+
+set(ARCH_FLAGS          "-O2 -mcpu=cortex-a32 -march=armv8-a+crc -mfpu=neon -mfloat-abi=hard")
+set(CMAKE_C_FLAGS       "${ARCH_FLAGS}" CACHE STRING "" FORCE )
+set(CMAKE_CXX_FLAGS     "${ARCH_FLAGS}" CACHE STRING "" FORCE )
+set(CMAKE_ASM_FLAGS     ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+set(CMAKE_LDFLAGS_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+
+set(CMAKE_SYSROOT "${TARGET_SYSROOT}")
+
+set(CMAKE_FIND_ROOT_PATH "${TARGET_SYSROOT}" )
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER )
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+
+set(CMAKE_FIND_LIBRARY_CUSTOM_LIB_SUFFIX "")
+
+set(CMAKE_PROGRAM_PATH "${HOST_SYSROOT}/usr/bin" CACHE STRING "" FORCE)
