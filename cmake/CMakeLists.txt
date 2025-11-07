@@ -52,7 +52,7 @@ set(private_compile_options)         #private compile_options
 
 #Some custom variables need to be transferred into tflite dir
 set(BUILD_IN_MCU_SDK TRUE)
-if(CONFIG_AMEBASMART OR CONFIG_AMEBASMARTPLUS)
+if(CONFIG_AMEBASMART)
     set(CMAKE_CHIP_TARGET amebasmart_ca32_freertos)
 else()
     set(CMAKE_CHIP_TARGET ${c_SOC_TYPE}_${c_MCU_TYPE})
