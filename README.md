@@ -12,12 +12,12 @@ Documentation: [ameba-tflite-micro](https://aiot.realmcu.com/en/latest/rtos/ai/t
 
 ### Supported SoCs
 
-| Chip       | OS   | Processor |         master         | SDK link                                               |
-| :--------- | ---- | --------- | :--------------------: | ------------------------------------------------------ |
-| AmebaSmart | RTOS | CA32      | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
-| AmebaLite  | RTOS | HiFi5 DSP | ![alt text][supported] | [ameba-dsp](https://github.com/Ameba-AIoT/ameba-dsp)   |
-| AmebaLite  | RTOS | KM4       | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
-| AmebaDplus | RTOS | KM4       | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
+| Chip               | OS   | Processor |         master         | SDK link                                               |
+| :----------------- | ---- | --------- | :--------------------: | ------------------------------------------------------ |
+| RTL8730E           | RTOS | CA32      | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
+| RTL8713E/RTL8726E  | RTOS | HiFi5 DSP | ![alt text][supported] | [ameba-dsp](https://github.com/Ameba-AIoT/ameba-dsp)   |
+| RTL8713E/RTL8726E  | RTOS | KM4       | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
+| RTL8721Dx/RTL8720E | RTOS | KM4       | ![alt text][supported] | [ameba-rtos](https://github.com/Ameba-AIoT/ameba-rtos) |
 
 [supported]: https://img.shields.io/badge/-supported-green "supported"
 
